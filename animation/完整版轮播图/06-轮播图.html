@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .box {
+            width: 730px;
+            height: 454px;
+            padding: 8px;
+            border: 3px solid #990000;
+            border-radius: 10px;
+            margin: 100px auto;
+        }
+
+        .inner {
+            position: relative;
+            overflow: hidden;
+            height: 454px;
+        }
+
+        #imglist {
+            width: 700%;
+            position: absolute;
+            left: 0;
+        }
+
+        li {
+            float: left;
+        }
+
+        .list {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            margin-left: -85px;
+        }
+
+        .list i {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #333;
+            float: left;
+            font-style: normal;
+            line-height: 20px;
+            font-size: 14px;
+            text-align: center;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .list i:last-child {
+            margin-right: 0;
+        }
+
+        .list i.current {
+            background-color: palegreen;
+            color: #fff;
+        }
+
+        .arrow {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            margin-top: -30px;
+            display: none;
+        }
+
+        .arrow-left, .arrow-right {
+            width: 30px;
+            height: 60px;
+            position: absolute;
+            font: 20px/60px "consolas";
+            color: #fff;
+            background-color: rgba(0, 0, 0, .3);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .arrow-right {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <div class="inner" id="inner">
+        <ul id="imglist">
+            <li><a href="#"><img src="images/1.jpg" alt=""></a></li>
+            <li><a href="#"><img src="images/2.jpg" alt=""></a></li>
+            <li><a href="#"><img src="images/3.jpg" alt=""></a></li>
+            <li><a href="#"><img src="images/4.jpg" alt=""></a></li>
+            <li><a href="#"><img src="images/5.jpg" alt=""></a></li>
+            <li><a href="#"><img src="images/6.jpg" alt=""></a></li>
+            <li><a href="#"><img src="images/1.jpg" alt=""></a></li>
+        </ul>
+        <div class="list">
+            <i class="current">1</i>
+            <i>2</i>
+            <i>3</i>
+            <i>4</i>
+            <i>5</i>
+            <i>6</i>
+        </div>
+        <div class="arrow">
+            <span class="arrow-left">&lt;</span>
+            <span class="arrow-right">&gt;</span>
+        </div>
+    </div>
+</div>
+<script src="animate.js"></script>
+<script>
+    /**
+     * 一. 鼠标移动到原点上切换
+     * 二. 左右按钮切换
+     * 三.自动切换,自动切换时鼠标一上去停止自动切换
+     *
+     */
+
+
+    //一. 鼠标移动到原点上切换
+    // 1. 找对象
+    var box = document.getElementById("box");
+    var inner = box.children[0];
+    var ul = inner.children[0];
+    var circles = inner.children[1].children;
+    // 获取图片的宽度
+    var imgWidth = ul.children[0].offsetWidth;
+
+    //一：门开着的
+    var flag = true;
+
+    //2. 给小圆点注册当鼠标滑过事件
+    for (var i = 0; i < circles.length; i++) {
+        circles[i].index = i;
+        circles[i].onmouseover = function () {
+
+            //如果是假图片的时候，瞬间变成真图片
+            if (i == ul.children.length - 1) {
+                i = 0;
+                ul.style.left = 0 + "px";
+            }
+
+
+            //计算图片移动的距离 小圆点的下标*图片宽度*-1;
+            var target = this.index * imgWidth * -1;
+            animate(ul, {left:target});
+            //3. 当鼠标移到当前原点的时候让它高亮,
+            for (var j = 0; j < circles.length; j++) {
+                circles[j].removeAttribute("class");
+            }
+            this.className = "current";
+        };
+    }
+
+
+    //二. 左右按钮切换
+    //1.找对象
+    var arrow = inner.children[2];
+    var rightBtn = inner.children[2].children[1];
+    var leftBtn = inner.children[2].children[0];
+    //记录当前张数
+    var currIndex = 0;
+    //2.注册鼠标滑过按钮显示事件
+    box.onmouseover = boxMouseMoveHandle;
+    //3.注册鼠标离开按钮隐藏事件
+    box.onmouseout = boxMouseOutHandle;
+    //4.给右边的按钮注册点击让ul左移事件
+    rightBtn.onclick = moveLeft;
+    //因为下面有这个鬼,所有封装备用;
+    function moveLeft() {
+
+        //2. 判断门是否打开
+        if(flag){
+            //3. 关门
+            flag = false;
+
+            //判断索引是否超出
+            if (currIndex == ul.children.length - 1) {
+                currIndex = 0;
+                ul.style.left = 0 + "px";
+            }
+            //点击右边的按钮,ul左移为正
+            currIndex++;
+            //计算要移动的位置
+            var target = currIndex * imgWidth * -1;
+            animate(ul, {left:target}, function () {
+                //动画执行完成，开门
+                flag = true;
+            });
+            //设置小圆点对应改变
+            for (var j = 0; j < circles.length; j++) {
+                //删除class,也就是让所有的小圆点都不亮,哈哈哈哈;
+                circles[j].removeAttribute("class");
+            }
+            //判断当前张数是否和ul下的子元素长度相等
+            //若相等则让当前小圆点亮,否则就让其他相等的亮
+            if (currIndex == ul.children.length - 1) {
+                circles[0].className = "current";
+            } else {
+                circles[currIndex].className = "current";
+            }
+        }
+    }
+    //5.给左边的按钮注册点击让ul右移事件
+    leftBtn.onclick = function () {
+        //判断索引是否为0;
+        if (currIndex == 0) {
+            currIndex = ul.children.length - 1;
+            var temp = currIndex * imgWidth * -1;
+            ul.style.left = temp + "px";
+        }
+        //点击左边的按钮,ul右移为负
+        currIndex--
+        //计算要移动的位置
+        var target = currIndex * imgWidth * -1;
+        animate(ul, {left:target});
+        //设置小圆点对应改变
+        for (var j = 0; j < circles.length; j++) {
+            circles[j].removeAttribute("class");
+        }
+        circles[currIndex].className = "current";
+    }
+
+
+    //三.自动切换,自动切换时鼠标一上去停止自动切换
+    //1. 设置定时器,然后跟点击右按钮事件一样
+    var timer = setInterval(moveLeft, 2000);
+    //2. 注册鼠标滑过定时器清除事件;
+    function boxMouseMoveHandle() {
+        arrow.style.display = "block";
+        clearInterval(timer);
+    }
+    //3. 注册鼠标滑过定时器开始事件
+    function boxMouseOutHandle() {
+        timer = setInterval(moveLeft, 2000);
+        arrow.style.display = "none";
+    }
+
+
+</script>
+</body>
+</html>

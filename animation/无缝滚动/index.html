@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    body{
+      background-color: #CCCCCC;
+    }
+    .box {
+      width: 1200px;
+      height: 200px;
+      /*border: 3px solid #ff9922;*/
+      margin: 110px auto;
+      overflow: hidden;
+    }
+    ul{
+      width: 1000%;
+      animation: move 12s linear infinite;
+    }
+    li{
+      width: 300px;
+      height: 200px;
+      border:2px solid aquamarine;
+      float: left;
+      overflow: hidden;
+
+    }
+    .box img{
+     transition: all 2s;
+    }
+    @keyframes move {
+      from{
+        transform: translateX(0px);
+      }
+      to{
+        transform: translateX(-1200px);
+      }
+    }
+    @keyframes da {
+      from{
+        transform: scale(1);
+      }
+      to{
+        transform: scale(1.2);
+      }
+    }
+    ul:hover{
+      animation-play-state: paused;
+    }
+    .box img:hover{
+
+      transform: scale(1.2);
+    }
+
+  </style>
+</head>
+<body>
+<div class="box">
+  <ul>
+    <li><img src="images/1.jpg" alt=""></li>
+    <li><img src="images/2.jpg" alt=""></li>
+    <li><img src="images/3.jpg" alt=""></li>
+    <li><img src="images/4.jpg" alt=""></li>
+    <li><img src="images/1.jpg" alt=""></li>
+    <li><img src="images/2.jpg" alt=""></li>
+    <li><img src="images/3.jpg" alt=""></li>
+    <li><img src="images/4.jpg" alt=""></li>
+  </ul>
+</div>
+
+
+
+</body>
+</html>

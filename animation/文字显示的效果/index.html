@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+    }
+    html,body{
+      height: 100%;
+    }
+    .box{
+      /*width: 100%;*/
+      height: 100%;
+      background: url("s12.jpg") center;
+      background-size: cover;
+      overflow: hidden;
+    }
+    .show{
+      width: 500px;
+      height: 300px;
+      background-color: rgba(51,0,0,0);
+      margin: 100px auto;
+      position: relative;
+    }
+    p{
+      position: absolute;
+      height: 30px;
+      width: 440px;
+      color: darkblue;
+      font: 700 22px/30px "新宋体";
+      width: 0;
+      overflow: hidden;
+    }
+    p:nth-child(1){
+
+      animation: play 6s  steps(20,start) both;
+    }
+    p:nth-child(2){
+      overflow: hidden;
+      top: 30px;
+      animation: play 6s 8s steps(20,start) both;
+    }
+    p:nth-child(3){
+      overflow: hidden;
+      top: 60px;
+      animation: play 6s 16s steps(20,start) both;
+    }
+    /*span{*/
+      /*position: absolute;*/
+      /*width: 10px;*/
+      /*height: 12px;*/
+
+    /*}*/
+    @keyframes play {
+      0%{
+        width: 0;
+        overflow: hidden;
+      }
+      100%{
+        width: 440px;
+      }
+    }
+
+
+  </style>
+</head>
+<body>
+<div class="box">
+      <div class="show" >
+        <p>&nbsp;这是我想对你说的话,你永远是我心中的他 </p>
+        <p> &nbsp;这是我想对你说的话,你永远是我心中的他</p>
+        <p> &nbsp;这是我想对你说的话,你永远是我心中的他</p>
+        
+      </div>
+</div>
+</body>
+</html>

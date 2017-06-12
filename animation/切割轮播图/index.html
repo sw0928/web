@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    body{
+      background-color: #CCCCCC;
+    }
+    .box {
+      width: 560px;
+      height: 380px;
+      margin: 100px auto  ;
+      position: relative;
+
+    }
+
+    .box ul {
+      width: 10%;
+      height: 380px;
+      float: left;
+      transform-style: preserve-3d;
+    }
+    li {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    .box li:nth-child(1) {
+      background: url("images/01.jpg");
+      transform: translateZ(190px);
+    }
+    .box li:nth-child(2) {
+      background: url("images/02.jpg");
+      transform: rotateX(90deg) translateZ(190px);
+    }
+    .box li:nth-child(3) {
+      background: url("images/03.jpg");
+      transform:rotateX(180deg) translateZ(190px);
+    }
+    .box li:nth-child(4) {
+      background: url("images/04.jpg");
+      transform:rotateX(270deg) translateZ(190px);
+    }
+    .box .left,.box .right{
+      position: absolute;
+      width: 60px;
+      height: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: fuchsia;
+      border-radius: 10px;
+      text-decoration: none;
+      font: 700 16px/50px "宋体";
+      color: #fffa5d;;
+    }
+    .box .left{
+      left: -60px;
+    }
+
+  </style>
+</head>
+<body>
+<div class="box">
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+
+
+
+  <a href="javascript:void(0)" class="right">下一张</a>
+  <a href="javascript:void(0)" class="left">上一张</a>
+</div>
+<script src="jquery-1.12.4.js" ></script>
+<script>
+  var box = document.querySelector(".box")
+  var uls = document.querySelectorAll(".box>ul")
+  var right = document.querySelector(".right")
+  var left = document.querySelector(".left")
+  var flag = true;
+  var count = 0;
+    $(function () {
+      $(".box ul").each(function (index,ment) {
+          $(ment).find("li").css("backgroundPosition","-"+index*56+"px 0")
+      })
+    })
+    right.onclick = function () {
+      if(flag){
+        flag = false
+        count--
+        for (var i = 0; i < uls.length; i++) {
+
+          uls[i].style.transition = "all .5s "+0.1*i+"s";
+          uls[i].style.transform = "rotateX("+count*90+"deg)"
+        }
+      }
+
+
+    }
+//  这是过度事件完成
+  uls[uls.length-1].addEventListener("transitionend",function () {
+      flag = true
+  })
+  left.onclick = function () {
+    if(flag){
+      flag = false
+      count++
+      for (var i = 0; i < uls.length; i++) {
+
+        uls[i].style.transition = "all .5s "+0.1*i+"s";
+        uls[i].style.transform = "rotateX("+count*90+"deg)"
+      }
+    }
+
+
+  }
+</script>
+</body>
+</html>

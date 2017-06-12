@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    /*body {*/
+      /*background: #333;*/
+      /*font-family: Helvetica, Arial, sans-serif;*/
+      /*padding-top: 100px;*/
+
+    /*}*/
+    /*p.change*/
+    /*{*/
+      /*font-size: 3em;*/
+      /*margin: 0 auto;*/
+      /*width: 700px;*/
+    /*}*/
+    /*.change*/
+    /*{*/
+      /*background: #222 -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)) 0 0 no-repeat;*/
+      /*-webkit-background-size: 125px;*/
+
+      /*color: rgba(255, 255, 255, 0.1);*/
+      /*-webkit-background-clip: text;*/
+
+      /*-webkit-animation-name: csshub-shine;*/
+      /*-webkit-animation-duration: 2s;*/
+      /*-webkit-animation-iteration-count: infinite;*/
+    /*}*/
+
+    /*@-webkit-keyframes change*/
+    /*{*/
+      /*0%*/
+      /*{*/
+        /*background-position: top left;*/
+      /*}*/
+      /*100%*/
+      /*{*/
+        /*background-position: top right;*/
+      /*}*/
+    /*}*/
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    html, body {
+      background-color: #333;,
+      /*padding-top: 100px;*/
+
+    }
+    div{
+      transform-style: preserve-3d;
+    }
+    p.change {
+      width: 1000px;
+      font-size: 8em;
+      margin: 200px auto;
+
+    }
+    .change{
+      background: #222 -webkit-gradient(linear,left top,right top,from(#222),to(#222),color-stop(.5,#fff) ) no-repeat 0 0;
+
+      -webkit-background-clip: text;
+      background-size: 150px 300px;
+      color: rgba(255,255,255,.1 );
+
+      animation: change 2s infinite ;
+
+    }
+    @keyframes change {
+      0%{
+        background-position:top left;
+        text-shadow: 11px -155px 50px #fff;
+      }
+
+      100%{
+        background-position: top right;
+        /*text-shadow: 11px -65px 0px #fff;*/
+      }
+    }
+    
+  </style>
+</head>
+<body>
+<div>
+  <p class="change">chick change</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      list-style: none ;
+    }
+    body{
+      background-color: #0D3462;
+    }
+    .box{
+      width: 1000px;
+      margin: 50px auto ;
+      clear: left;
+    }
+    .content{
+      float: left;
+      margin-right: 20px;
+      width: 220px;
+
+      perspective: 1500px;
+    }
+    .film{
+      width: 220px;
+      height: 300px;
+      transform-style: preserve-3d;
+      transition: 2s;
+
+    }
+    .content:hover .film{
+      transform: rotateY(180deg);
+    }
+    .face{
+      position: absolute;
+      /*当只有一个div的时候翻转过去之后不想看见正面镜像就可以用这个hidden*/
+      backface-visibility: hidden;
+    }
+    .end{
+      font-size: 20px;
+      color: #fffa5d;
+      text-align: center;
+      transform: rotateY(180deg);
+      /*background:-webkit-gradient(linear,left top,left bottom,from(#3a81c3),to(#1ab926));*/
+      background: linear-gradient(to bottom,#3a81c3,#1ab926);
+      /*background: radial-gradient(110px,#3a81c3,#1ab926);圆形的渐变*/
+      width: 220px;
+      height: 300px;
+      line-height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="content">
+      <div class="film">
+        <div class="face"><img src="images/img1.jpg" alt=""></div>
+        <div class="face end">你是猪吗</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="film">
+        <div class="face"><img src="images/img2.jpg" alt=""></div>
+        <div class="face end">你是猪吗</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="film">
+        <div class="face"><img src="images/img3.jpg" alt=""></div>
+        <div class="face end">你是猪吗</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="film">
+        <div class="face"><img src="images/img4.jpg" alt=""></div>
+        <div class="face end">你是猪吗</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
