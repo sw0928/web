@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+    }
+
+    html,body {
+      height: 100%;
+      background-color: #999;
+      overflow: hidden;
+    }
+
+    .box {
+      width: 300px;
+      height: 200px;
+      margin: 200px auto;
+    }
+
+    ul {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform: rotateX(-10deg);
+      position: relative;
+
+      animation: animation 20s linear infinite;
+    }
+    ul:hover{
+      animation-play-state: paused;
+      transform: scale(1.3);
+
+    }
+    ul li {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      opacity: .4;
+      overflow: hidden;
+      backface-visibility: hidden;
+    }
+
+    .box img {
+      width: 300px;
+      height: 200px;
+
+    }
+    @keyframes animation {
+      0%{
+        transform: rotateX(-10deg) rotateY(0deg) scale(1);
+      }
+      50%{
+        transform: rotateX(10deg) rotateY(360deg) scale(1.2);
+      }
+      100%{
+        transform: rotateX(-10deg) rotateY(720deg) scale(1);
+      }
+    }
+
+  </style>
+</head>
+<body>
+<div class="box">
+  <ul>
+    <li><img src="" alt=""></li>
+    <li><img src="" alt=""></li>
+    <li><img src="" alt=""></li>
+    <li><img src="" alt=""></li>
+    <li><img src="" alt=""></li>
+    <li><img src="" alt=""></li>
+    <li><img src="" alt=""></li>
+    <li><img src="" alt=""></li>
+  </ul>
+</div>
+
+<script src="jquery-1.12.4.js" ></script>
+<script>
+  var box = document.querySelector(".box")
+  var ul = document.querySelector("ul")
+  var lis = document.querySelectorAll(".box li")
+  var imgs =document.querySelectorAll("img")
+  arr = ["images/1.jpg","images/2.jpg","images/3.jpg","images/4.jpg","images/5.jpg","images/6.jpg","images/7.jpg","images/8.jpg"]
+  $(function () {
+    $(".box img").each(function (index,ment) {
+      var random = parseInt(Math.random()*arr.length)
+        $(ment).attr("src",arr[random])
+    })
+    $(".box li").on("mouseenter",function () {
+      $(this).children().css("transition","all 1s");
+      $(this).children().css("transform"," scale(1.2)  rotate(10deg)")
+    })
+    $(".box li").on("mouseleave",function () {
+      $(this).children().css("transform","scale(1)")
+    })
+  })
+
+
+  for (var i = 0; i < lis.length; i++) {
+    lis[i].style.transform = "rotateY("+45*i+"deg) translateZ(400px)"
+    lis[i].onmouseover= function () {
+      for (var i = 0; i < lis.length; i++) {
+
+        lis[i].style.opacity = ".4"
+      }
+      this.style.opacity = "1"
+    }
+    lis[i].onmouseout= function () {
+      for (var i = 0; i < lis.length; i++) {
+
+        lis[i].style.opacity = ".4"
+      }
+
+    }
+  }
+</script>
+</body>
+</html>
