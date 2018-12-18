@@ -1,0 +1,64 @@
+/* style */
+html,body{
+  width: 100%;
+  height: 100%;
+}
+img{display:block;width:100%;height:auto;}
+.drag-box{
+  width:1200px;
+  height:750px;
+  background-color:#fff;
+  margin:0 auto ;  
+  background-repeat: no-repeat;
+  background-clip: border-box;
+  background-size: cover;
+  margin: 20px auto
+}
+.drag{width:150px;height:150px;}
+
+.handler{background:#333;color:#fff;text-align:center;font-size:12px;line-height:20px;}
+
+.drag.drag-1{width:150px;height:150px;top:100px;}
+
+.drag-box.drag-box-2{height:600px;}
+.drag.drag-2{width:150px;height:150px;left:50%;margin-left:-75px;}
+
+.drag.drag-4{width:150px;height:170px;}
+
+
+.drag-box.drag-box-5{width:80%;margin:0 auto 0;}
+.test{position:relative;width:50%;margin:0 auto 0;height:350px;padding:50px 0;background-color:#ddd;margin:0 auto 100px;border:1px solid #aaa;}
+.test i{display:block;position:absolute;top:10px;left:10px;}
+
+
+.log{width:50%;height:75px;line-height:25px;margin:0 auto 20px;font-size:16px;color:#333;}
+.log span{color:#cb0000;}
+
+/* 当点击拖动时，保证当前元素处于前端 */
+.drag.on{z-index:9;}
+ form.layui-form{
+  position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    padding: 20px 50px;
+    background: #ddd;
+    display: none;
+    
+}
+.shade{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1111;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,.5);
+  display: none;
+}
+.aa{
+  background-size: 100%;
+    background-origin: border-box;
+    background-repeat: no-repeat;
+}

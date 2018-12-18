@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>行业报告</title>
+  <link rel="stylesheet" href="./css/layui.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" href="./css/echarts.css">
+  <!--  <link rel="stylesheet" href="./css/fixed-table.css" />  -->
+  <script src="./js/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="js/drag.js"></script>
+  <script src="./js/echarts.common.min.js"></script>
+  <script src="./js/template.js"></script>
+  <script src="./js/htmlcavan.js"></script>
+  <script src="./js/jspdf.min.js"></script>
+</head>
+<style>
+  .layui-body{
+    padding: 40px;
+    background: #ddd;
+  }
+  table{
+    width: auto;
+  }
+  table tr{
+    background: #f9f9f9;
+  }
+  table tr:nth-of-type(odd){
+    background: #e2e1e1;
+  }
+  .fixed-table_header th, .fixed-table_body td{
+    padding: 5px 0;
+    border: 1px solid #bdc4ca;
+    box-sizing: border-box;
+  }
+ .active{
+  border: 1px solid;
+  
+ }
+ 
+</style>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+      <div class="layui-logo">控制台</div>
+      <!-- 头部区域（可配合layui已有的水平导航） -->
+      <ul class="layui-nav layui-layout-left">
+        <!-- <li class="layui-nav-item"><a href="javascript:;" id="page">多单页</a></li> -->
+
+
+      </ul>
+      <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+          <a id="baocun" href="javascript:;">
+            保存
+          </a>
+
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+      <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+          <li class="layui-nav-item layui-nav-itemed">
+            <a class="" href="javascript:;">文本类型</a>
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;" id="biaoti">标题</a></dd>
+              <dd><a href="javascript:;" id="backBt">背景标题</a></dd>
+              <dd><a href="javascript:;" id="wenben">文本框</a></dd>
+              <dd><a href="javascript:;" id="fuzhu">辅助线</a></dd>
+
+            </dl>
+          </li>
+          <li class="layui-nav-item">
+            <a href="javascript:;">图表</a>
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;" id="zhexian">折线图</a></dd>
+              <dd><a href="javascript:;" id="bingtu">饼图</a></dd>
+              <dd><a href="javascript:;" id="columnar">柱状图</a></dd>
+              <dd><a href="javascript:;" id="zhezhu">折柱混合</a></dd>
+              <dd><a href="javascript:;" id="table">表格</a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item"><a href="javascript:;" id="img">图片</a></li>
+          <li class="layui-nav-item"><a id="xinjian" href="javascript:;">背景图</a></li>
+          <li class="layui-nav-item"><a id="page" href="javascript:;">新增页</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="layui-body">
+      <div class='drag-box active'>
+
+      </div>
+
+
+    </div>
+    <div class="shade">
+      <!-- 标题 -->
+      <form id="form1" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">内容：</label>
+          <div class="layui-input-block">
+            <input type="text" name="content" required lay-verify="required" placeholder="请输入标题" autocomplete="on"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">字体大小：</label>
+          <div class="layui-input-block">
+            <input type="text" name="daxiao" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">加粗：</label>
+          <div class="layui-input-block">
+            <input type="text" name="cuxi" lay-verify="" placeholder="请输入数字" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 文本框 -->
+      <form id="form5" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">内容：</label>
+          <div class="layui-input-block">
+            <textarea placeholder="请输入内容" name="content" class="layui-textarea"></textarea>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">字体大小：</label>
+          <div class="layui-input-block">
+            <input type="text" name="daxiao" lay-verify="" placeholder="请输入尺寸" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="back" lay-verify="" placeholder="请输入背景颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo4">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 背景标题 -->
+      <form id="form10" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">内容：</label>
+          <div class="layui-input-block">
+            <input type="text" name="content" required lay-verify="required" placeholder="请输入标题" autocomplete="on"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">字体大小：</label>
+          <div class="layui-input-block">
+            <input type="text" name="daxiao" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">加粗：</label>
+          <div class="layui-input-block">
+            <input type="text" name="cuxi" lay-verify="" placeholder="请输入数字" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height"  lay-verify="" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">行高度：</label>
+            <div class="layui-input-block">
+              <input type="text" name="height1"  lay-verify="" placeholder="请输入尺寸" autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">对齐方式：</label>
+          <div class="layui-input-block">
+            <input type="text" name="align" lay-verify="" placeholder="请输入对齐方式" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">圆角尺寸：</label>
+          <div class="layui-input-block">
+            <input type="text" name="fillet" lay-verify="" placeholder="请输入尺寸" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="backColor" lay-verify="" placeholder="请输入背景颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景图：</label>
+          <div class="layui-input-block">
+            <input type="text" name="backImg" lay-verify="" placeholder="请输入背景图片" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo9">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 辅助线 -->
+      <form id="form6" class="layui-form layui-anim layui-anim-up" action="">
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">圆角尺寸：</label>
+          <div class="layui-input-block">
+            <input type="text" name="fillet" lay-verify="" placeholder="请输入尺寸" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo5">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 背景图加主题色 -->
+      <form id="form2" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">主题颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="theme" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景图：</label>
+          <div class="layui-input-block">
+            <input type="text" name="back" lay-verify="" placeholder="请输入背景图名称" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 饼图 -->
+      <form id="form3" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">数据地址：</label>
+          <div class="layui-input-block">
+            <input type="text" name="urlStr" required lay-verify="required" placeholder="请输入url" autocomplete="on"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo2">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 折线 -->
+      <form id="form8" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo7">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 柱状图 -->
+      <form id="form9" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">数据地址：</label>
+          <div class="layui-input-block">
+            <input type="text" name="urlStr" required lay-verify="required" placeholder="请输入url" autocomplete="on"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo8">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 折柱混合 -->
+      <form id="form11" class="layui-form layui-anim layui-anim-up" action="">
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height" required lay-verify="required" placeholder="请输入尺寸" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">背景颜色：</label>
+          <div class="layui-input-block">
+            <input type="text" name="color" lay-verify="" placeholder="请输入颜色" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo10">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 表格 -->
+      <form id="form4" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">数据地址：</label>
+          <div class="layui-input-block">
+            <input type="text" name="urlStr" required lay-verify="required" placeholder="请输入url" autocomplete="on"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">表头字符串：</label>
+          <div class="layui-input-block">
+            <input type="text" name="nameStr" required lay-verify="required" placeholder="请以、隔开" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">表头宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="widthStr" required lay-verify="required" placeholder="请以、隔开" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo3">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+      <!-- 图片 -->
+      <form id="form7" class="layui-form layui-anim layui-anim-up" action="">
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">宽度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="width" required lay-verify="required" placeholder="请输入尺寸" autocomplete="on" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">图片名称：</label>
+          <div class="layui-input-block">
+            <input type="text" name="img" lay-verify="" placeholder="请输入图片名称" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo6">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-normal but3">取消</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="layui-footer" style="text-align: center;">
+      你值得拥有
+    </div>
+  </div>
+
+  <script src="./layui.all.js"></script>
+  <!--  <script src="./js/fixed-table.js"></script> -->
+  <script>
+
+
+    $(function () {
+      var num = 0;
+      //JavaScript代码区域
+      layui.use(['element', 'form'], function () {
+        var element = layui.element,
+          form = layui.form;
+        //标题
+        form.on('submit(formDemo)', function (data) {
+          $('#form1').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var content = data.field.content;
+          var daxiao = data.field.daxiao;
+          var color = data.field.color;
+          var cuxi = data.field.cuxi;
+          var drag = 'drag' + num;
+          var html = '<div class="' + drag + ' aa" style="font-size:' + daxiao + 'px;color:' + color + '; font-weight:' + cuxi + ';">' +
+            content +
+            '</div>';
+          $('.layui-body .active').append(html);
+          return false;
+        });
+        //背景标题
+        form.on('submit(formDemo9)', function (data) {
+          $('#form10').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var content = data.field.content,
+            daxiao = data.field.daxiao,
+            color = data.field.color,
+            cuxi = data.field.cuxi,
+            fillet = data.field.fillet,
+            width = data.field.width,
+            height = data.field.height,
+            height1 = data.field.height1,
+            backColor = data.field.backColor,
+            backImg = data.field.backImg,
+            align = data.field.align,
+            drag = 'drag' + num;
+          backImg = 'url(' + './img/' + backImg + ')';
+          //console.log(backImg);
+          var html = '<div class="' + drag + ' aa" style="width:' + width + 'px;height:' + height + 'px;line-height:' + height1 + 'px;' +
+            'font-size:' + daxiao + 'px;border-radius:' + fillet + 'px;color:' + color + '; font-weight:' + cuxi + ';background:' + backColor + ';text-align: ' + align + ';background-image: ' + backImg + ' ">' +
+            content +
+            '</div>';
+          $('.layui-body .active').append(html);
+          return false;
+        });
+        //文本框
+        form.on('submit(formDemo4)', function (data) {
+          $('#form5').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var width = data.field.width;
+          var content = data.field.content;
+          var height = data.field.height;
+          var daxiao = data.field.daxiao;
+          var color = data.field.color;
+          var back = data.field.back;
+          console.log(data);
+          var drag = 'drag' + num;
+          var html = '<div class="' + drag + ' aa" style="font-size:' + daxiao + 'px;color:' + color + ';width:' + width + 'px;height:' + height + 'px;background:' + back + ';">' +
+            content +
+            '</div>';
+          $('.layui-body .active').append(html);
+          return false;
+        });
+        //背景图
+        form.on('submit(formDemo1)', function (data) {
+          $('#form2').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var width = data.field.width;
+          var height = data.field.height;
+          var color = data.field.color;
+          var theme = data.field.theme;
+          var back = data.field.back;
+          console.log(data);
+          $('.layui-body .active').css('width', width);
+          $('.layui-body .active').css('color', theme);
+          $('.layui-body .active').css('height', height);
+          $('.layui-body .active').css('background', color);
+          $('.layui-body .active').css('background-image', 'url(' + './img/' + back + ')');
+          return false;
+        });
+        //辅助线
+        form.on('submit(formDemo5)', function (data) {
+          $('#form6').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var width = data.field.width;
+          var height = data.field.height;
+          var color = data.field.color;
+          var fillet = data.field.fillet;
+          var drag = 'drag' + num;
+          var html = '<div class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;border-radius:' + fillet + 'px;">'
+
+          '</div>';
+          $('.layui-body .active').append(html);
+          return false;
+        });
+        //饼图
+        form.on('submit(formDemo2)', function (data) {
+          $('#form3').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var urlStr = data.field.urlStr;
+          var width = data.field.width;
+          var height = data.field.height;
+          var color = data.field.color;
+          var dataStr = [], str = [];
+          var drag = 'drag' + num;
+          var echart = 'echart' + num;
+          var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
+
+            '</div>';
+          $('.layui-body .active').append(html);
+          $.ajax({
+            url: urlStr,//json文件位置
+            type: "GET",//请求方式为get
+            dataType: "json", //返回数据格式为json
+            success: function (data) {//请求成功完成后要执行的方法      
+              dataStr = []; str = [];
+              for (let i = 0; i < data.data.length; i++) {
+                const element = data.data[i];
+                dataStr.push(element.name);
+                var temp = { value: element.dress, name: element.name };
+                str.push(temp)
+              };
+              //console.log(dataStr,str);
+              
+              var myChart = echarts.init(document.getElementById(echart));
+              var option = {
+                title: {
+                  text: '饼图',
+                },
+                tooltip: {
+                  trigger: 'item',
+                  formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                  orient: 'vertical',
+                  right: '10%',
+                  textStyle: {
+                    fontSize: '16',
+                    color: '#0099FF'
+                  },
+                  data: dataStr
+                },
+                series: [
+                  {
+                    name: '数据',
+                    type: 'pie',
+                    radius: '80%',
+                    center: ['40%', '50%'],
+                    data: str,
+                    label: {
+                      normal: {
+                        show: false,
+
+                      }
+                    },
+                    itemStyle: {
+                      emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                      }
+                    }
+                  }
+                ]
+              };
+              myChart.clear();
+              myChart.on('click', function (param) {
+
+              })
+              myChart.setOption(option);
+            }
+          });
+
+          return false;
+
+        });
+        //柱状图
+        form.on('submit(formDemo8)', function (data) {
+          $('#form9').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var urlStr = data.field.urlStr;
+          var width = data.field.width;
+          var height = data.field.height;
+          var color = data.field.color;
+          var dataStr = [], str = [];
+          var drag = 'drag' + num;
+          var echart = 'echart' + num;
+          var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
+
+            '</div>';
+          $('.layui-body .active').append(html);
+          $.ajax({
+            url: urlStr,//json文件位置
+            type: "GET",//请求方式为get
+            dataType: "json", //返回数据格式为json
+            success: function (data) {//请求成功完成后要执行的方法      
+              // console.log(data)
+              dataStr = []; str = [];
+              for (let i = 0; i < data.data.length; i++) {
+                const element = data.data[i];
+                dataStr.push(element.riqi);
+                str.push(element.dress);
+              };
+              var myChart = echarts.init(document.getElementById(echart));
+
+              var option = {
+                title: {
+                  text: '柱状图',
+                },
+                color: ['#3398DB'],
+                tooltip: {
+                  trigger: 'axis',
+                  axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                  }
+                },
+                grid: {
+                  left: '3%',
+                  right: '4%',
+                  bottom: '3%',
+                  containLabel: true
+                },
+                xAxis: [
+                  {
+                    type: 'category',
+                    data: dataStr,
+                    axisTick: {
+                      alignWithLabel: true
+                    }
+                  }
+                ],
+                yAxis: [
+                  {
+                    type: 'value'
+                  }
+                ],
+                series: [
+                  {
+                    name: '数据',
+                    type: 'bar',
+                    barWidth: '50%',
+                    data: str
+                  }
+                ]
+              };
+              myChart.clear();
+              myChart.on('click', function (param) {
+
+              })
+              myChart.setOption(option);
+            }
+          });
+
+          return false;
+
+        });
+        //折柱混合图
+        form.on('submit(formDemo10)', function (data) {
+          $('#form11').hide();
+          $('.shade').hide();
+          num = num + 1;
+
+          var width = data.field.width;
+          var height = data.field.height;
+          var color = data.field.color;
+
+          var drag = 'drag' + num;
+          var echart = 'echart' + num;
+          var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
+
+            '</div>';
+          $('.layui-body .active').append(html);
+
+          var myChart = echarts.init(document.getElementById(echart));
+          var option = {
+            title: {
+              text: '折柱混合',
+            },
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                  color: '#999'
+                }
+              }
+            },
+            legend: {
+              data: ['蒸发量', '降水量', '平均温度']
+            },
+            xAxis: [
+              {
+                type: 'category',
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                axisPointer: {
+                  type: 'shadow'
+                }
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value',
+                name: '水量',
+                min: 0,
+                max: 250,
+                interval: 50,
+                axisLabel: {
+                  formatter: '{value} ml'
+                }
+              },
+              {
+                type: 'value',
+                name: '温度',
+                min: 0,
+                max: 25,
+                interval: 5,
+                axisLabel: {
+                  formatter: '{value} °C'
+                }
+              }
+            ],
+            series: [
+              {
+                name: '蒸发量',
+                type: 'bar',
+                data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+              },
+              {
+                name: '降水量',
+                type: 'bar',
+                data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+              },
+              {
+                name: '平均温度',
+                type: 'line',
+                yAxisIndex: 1,
+                data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+              }
+            ]
+          };
+          myChart.clear();
+          myChart.on('click', function (param) {
+
+          })
+          myChart.setOption(option);
+          return false;
+
+        });
+        //折线
+        form.on('submit(formDemo7)', function (data) {
+          $('#form8').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var width = data.field.width;
+          var height = data.field.height;
+          var color = data.field.color;
+          //console.log(data);
+          var drag = 'drag' + num;
+          var echart = 'echart' + num;
+          var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
+
+            '</div>';
+          $('.layui-body .active').append(html);
+          //console.log(width);
+          var myChart = echarts.init(document.getElementById(echart));
+          var option = {
+            title: {
+              text: ''
+            },
+            tooltip: {
+              trigger: 'axis'
+            },
+            legend: {
+              data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+            },
+            grid: {
+              left: '2%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+            },
+
+            xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [
+              {
+                name: '邮件营销',
+                type: 'line',
+                stack: '总量',
+                data: [120, 132, 101, 134, 90, 230, 210]
+              },
+              {
+                name: '联盟广告',
+                type: 'line',
+                stack: '总量',
+                data: [220, 132, 191, 234, 290, 330, 310]
+              },
+              {
+                name: '视频广告',
+                type: 'line',
+                stack: '总量',
+                data: [150, 232, 201, 154, 190, 330, 410]
+              },
+              {
+                name: '直接访问',
+                type: 'line',
+                stack: '总量',
+                data: [320, 332, 301, 334, 390, 330, 320]
+              },
+              {
+                name: '搜索引擎',
+                type: 'line',
+                stack: '总量',
+                data: [820, 932, 901, 934, 1290, 1330, 1320]
+              }
+            ]
+          };
+          myChart.clear();
+          myChart.on('click', function (param) {
+
+          })
+          myChart.setOption(option);
+          return false;
+
+        });
+        //表格
+        form.on('submit(formDemo3)', function (data) {
+          $('#form4').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var urlStr = data.field.urlStr;
+          var nameStr = data.field.nameStr;
+          var widthStr = data.field.widthStr;
+          var str = [];
+          console.log(data);
+          var drag = 'drag' + num;
+          nameStr = nameStr.split('、');
+          widthStr = widthStr.split('、');
+
+          for (var key in nameStr) {
+            var temp = {};			//创建临时对象
+            temp.name = nameStr[key];		//存储对象的Key为name
+            str.push(temp);
+          };
+          if (widthStr.length == 1) {
+            var key = nameStr.length;
+            for (let i = 0; i < key; i++) {
+              str[i].width = widthStr[0];
+
+            }
+          } else {
+            for (var key in widthStr) {
+              str[key].width = widthStr[key];		//存储对象的Key为name
+
+            };
+          }
+          console.log(str);
+          var thList = '', tdList = '';
+          for (let i = 0; i < str.length; i++) {
+            const element = str[i];
+            thList = thList + '<th style="width:' + str[i].width + 'px"><div class="table-cell">' + str[i].name + '</div></th>'
+          };
+          console.log(thList);
+          var thead = '<div class="">'
+
+            + '<table class="fixed-table_header" cellspacing="0" cellpadding="0" border="0">'
+            + '<thead>'
+            + '<tr>'
+            + thList
+            + '</tr>'
+            + '</thead>'
+            + '</table>'
+            + '</div>';
+          $.ajax({
+            url: urlStr,//json文件位置
+            type: "GET",//请求方式为get
+            dataType: "json", //返回数据格式为json
+            success: function (data) {//请求成功完成后要执行的方法 
+              //each循环 使用$.each方法遍历返回的数据date
+
+              for (let i = 0; i < data.data.length; i++) {
+                const element = data.data[i];
+                var out_arr = [];
+                for (var key in element) {
+                  var temp = {};			//创建临时对象
+                  temp.field = key;		//存储对象的Key为name
+                  temp.title = element[key];	//存储value
+                  out_arr.push(temp);
+                }
+                if (widthStr.length == 1) {
+                  var key = out_arr.length;
+                  for (let i = 0; i < key; i++) {
+                    out_arr[i].width = widthStr[0];
+
+                  }
+                } else {
+                  for (var key in widthStr) {
+                    out_arr[key].width = widthStr[key];		//存储对象的Key为name
+
+                  };
+                }
+                var td = '';
+                for (let j = 0; j < out_arr.length; j++) {
+                  const element = out_arr[j];
+                  td = td + '<td style="width:' + element.width + 'px;"><div  class="table-cell">' + element.title + '</div></td>'
+
+                }
+                tdList = tdList + '<tr>'
+                  + td
+                  + '</tr>';
+              };
+              var tbody = ' <div class="">'
+                + '<table class="fixed-table_body" cellspacing="0" cellpadding="0" border="0">'
+                + '<tbody>'
+                + tdList
+                + '</tbody>'
+                + '</table>'
+                + '</div>'
+              var html = '<div class="' + drag + ' aa" style="padding: 20px 0 0 0;">'
+                + thead
+                + tbody
+                + '</div>';
+              $('.layui-body .active').append(html);
+
+
+            }
+          })
+          return false;
+        });
+        //图片
+        form.on('submit(formDemo6)', function (data) {
+          $('#form7').hide();
+          $('.shade').hide();
+          num = num + 1;
+          var width = data.field.width;
+
+          var img = data.field.img;
+          //console.log(data);
+          var drag = 'drag' + num;
+          var html = '<div class="' + drag + ' aa" >'
+            + '<img src="./img/' + img + '" style="width:' + width + 'px;">'
+            + '</div>';
+          $('.layui-body .active').append(html);
+          return false;
+        });
+
+      });
+      add = function (ele) {
+        $(ele).each(function (index) {
+          $(this).myDrag({
+            dragStart: function (x, y) {
+              $('.lg span').html('').eq(0).html('开始拖动了! — 坐标 x：' + x + ' y：' + y);
+            },
+            dragEnd: function (x, y) {
+              $('.lg span').html('').eq(1).html('停止拖动了! — 坐标 x：' + x + ' y：' + y);
+            },
+            dragMove: function (x, y) {
+              $('.lg span').html('').eq(2).html('拖动中! — 坐标 x：' + x + ' y：' + y);
+            }
+          });
+        });
+      }
+      $('#xinjian').click(function () {
+        $('#form2').show();
+        $('.shade').show();
+      });
+      $('#biaoti').click(function () {
+        $('#form1').show();
+        $('.shade').show();
+      });
+      $('#backBt').click(function () {
+        $('#form10').show();
+        $('.shade').show();
+      });
+      $('#wenben').click(function () {
+        $('#form5').show();
+        $('.shade').show();
+      });
+      $('#fuzhu').click(function () {
+        $('#form6').show();
+        $('.shade').show();
+      });
+      $('#bingtu').click(function () {
+        $('#form3').show();
+        $('.shade').show();
+      });
+      $('#columnar').click(function () {
+        $('#form9').show();
+        $('.shade').show();
+      });
+      $('#zhexian').click(function () {
+        $('#form8').show();
+        $('.shade').show();
+      });
+      $('#table').click(function () {
+        $('#form4').show();
+        $('.shade').show();
+      });
+      $('#img').click(function () {
+        $('#form7').show();
+        $('.shade').show();
+      });
+      $('#zhezhu').click(function () {
+        $('#form11').show();
+        $('.shade').show();
+      });
+      $('.but3').click(function () {
+        $('form').hide(1000);
+        $('.shade').hide(1000);
+        return false
+      });
+
+      $('#page').click(function () {
+        var html = '<div class="drag-box" >'
+
+        '</div>';
+        $('.layui-body').append(html);
+
+      });
+      $(".layui-body").on("click", ".active .aa", function () {
+
+        add('.aa')
+      });
+      $(".layui-body").on("click", ".drag-box", function () {
+        $(this).addClass('active').siblings().removeClass('active')
+      });
+      //双击事件取消当前视图
+      $(".layui-body").on("dblclick", ".active .aa", function (e) {
+        e.stopPropagation();
+        var _this = this;
+        layer.msg('你确定你删除么？', {
+          time: 0 //不自动关闭
+          , btn: ['必须啊', '丑到爆']
+          , yes: function (index) {
+            layer.close(index);
+            $(_this).remove();
+          }
+        });
+      });
+      $(".layui-body").on("dblclick", ".drag-box", function (e) {
+        e.stopPropagation();
+        var _this = this;
+        layer.msg('你确定你删除么？', {
+          time: 0 //不自动关闭
+          , btn: ['必须啊', '丑到爆']
+          , yes: function (index) {
+            layer.close(index);
+            $(_this).remove();
+          }
+        });
+      });
+      //保存div   
+      var downNum = 0, dd = $('.layui-body');
+      var pdfcc = $('#baocun');
+      pdfcc.on('click', function (event) {
+        $('.layui-body .drag-box').removeClass('active');
+        layer.msg('你确定保存么？', {
+          time: 0 //不自动关闭
+          , btn: ['必须啊', '不了']
+          , yes: function (index) {
+            layer.close(index);
+            downNum = downNum + 1;
+            var content = 'content' + downNum;
+
+            html2canvas($('.layui-body'), {
+              allowTaint: true,
+              //height: $('.layui-body').outerHeight(),
+              onrendered: function (canvas) {
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                //一页pdf显示html页面生成的canvas高度;a0 :2383.94, 3370.39'a1': [1683.78, 2383.94],'a2': [1190.55, 1683.78],'a4': [595.28, 841.89],
+                //'a6': [297.64, 419.53],'a5': [419.53, 595.28],
+                var pageHeight = contentWidth / 419.53 * 595.28;
+                //未生成pdf的html页面高度
+                var leftHeight = contentHeight;
+                //页面偏移
+                var position = 0;
+                //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                var imgWidth = 419.53;
+                var imgHeight = 419.53 / contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a0');
+
+                //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                //当内容未超过pdf一页显示的范围，无需分页
+                pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                if (leftHeight < pageHeight) {
+                  pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                } else {
+                  while (leftHeight > 0) {
+                    pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                    leftHeight -= pageHeight;
+                    position -= 595.28;
+                    //避免添加空白页
+                    if (leftHeight > 0) {
+                      pdf.addPage();
+                    }
+                  }
+                }
+
+                pdf.save('' + content + '.pdf');
+                /*  //返回图片URL，参数：图片格式和清晰度(0-1)
+                 var pageData = canvas.toDataURL('image/jpeg', 1.0);
+     
+                 // .28,841.89]
+                 var pdf = new jsPDF('', 'pt', 'a4');
+     
+                 //需要dataUrl格式
+                 pdf.addImage(pageData, 'JPEG', 0, 0, 595.28, 592.28 / canvas.width * canvas.height);
+     
+                 pdf.save('' + content + '.pdf'); */
+
+
+              }
+            });
+          }
+        });
+
+
+      });
+      $(window).scroll(function () {
+        // 滚动条距离顶部的距离 大于 200px时
+        if ($(window).scrollTop() >= 60) {
+          $('.layui-layout-admin .layui-side').css('top', '0px');
+          //$(".scroll_top").fadeIn(1000); // 开始淡入
+        } else {
+          $('.layui-layout-admin .layui-side').css('top', '60px')
+        }
+      });
+
+    })
+  </script>
+</body>
+
+</html>
