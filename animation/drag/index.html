@@ -223,17 +223,15 @@
         <div class="layui-form-item">
           <label class="layui-form-label">高度：</label>
           <div class="layui-input-block">
-            <input type="text" name="height"  lay-verify="" placeholder="请输入尺寸" autocomplete="off"
-              class="layui-input">
+            <input type="text" name="height" lay-verify="" placeholder="请输入尺寸" autocomplete="off" class="layui-input">
           </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">行高度：</label>
-            <div class="layui-input-block">
-              <input type="text" name="height1"  lay-verify="" placeholder="请输入尺寸" autocomplete="off"
-                class="layui-input">
-            </div>
+          <label class="layui-form-label">行高度：</label>
+          <div class="layui-input-block">
+            <input type="text" name="height1" lay-verify="" placeholder="请输入尺寸" autocomplete="off" class="layui-input">
           </div>
+        </div>
         <div class="layui-form-item">
           <label class="layui-form-label">对齐方式：</label>
           <div class="layui-input-block">
@@ -382,6 +380,13 @@
       </form>
       <!-- 折线 -->
       <form id="form8" class="layui-form layui-anim layui-anim-up" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">数据地址：</label>
+          <div class="layui-input-block">
+            <input type="text" name="urlStr" required lay-verify="required" placeholder="请输入url" autocomplete="on"
+              class="layui-input">
+          </div>
+        </div>
         <div class="layui-form-item">
           <label class="layui-form-label">宽度：</label>
           <div class="layui-input-block">
@@ -672,7 +677,7 @@
                 str.push(temp)
               };
               //console.log(dataStr,str);
-              
+
               var myChart = echarts.init(document.getElementById(echart));
               var option = {
                 title: {
@@ -903,81 +908,79 @@
           $('#form8').hide();
           $('.shade').hide();
           num = num + 1;
+          var urlStr = data.field.urlStr;
           var width = data.field.width;
           var height = data.field.height;
           var color = data.field.color;
-          //console.log(data);
+          var dataStr = [], str1 = [], str2 = [], str3 = [], riqi = [], aa = [];
           var drag = 'drag' + num;
           var echart = 'echart' + num;
           var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
 
             '</div>';
           $('.layui-body .active').append(html);
-          //console.log(width);
-          var myChart = echarts.init(document.getElementById(echart));
-          var option = {
-            title: {
-              text: ''
-            },
-            tooltip: {
-              trigger: 'axis'
-            },
-            legend: {
-              data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-            },
-            grid: {
-              left: '2%',
-              right: '4%',
-              bottom: '3%',
-              containLabel: true
-            },
+          $.ajax({
+            url: urlStr,//json文件位置
+            type: "GET",//请求方式为get
+            dataType: "json", //返回数据格式为json
+            success: function (data) {//请求成功完成后要执行的方法      
+              // console.log(data)
+              str1 = []; str2 = []; str3 = []; riqi = [];
+              dataStr = data.arr
+              for (let i = 0; i < data.data.length; i++) {
+                const element = data.data[i];
+                //dataStr.push(element.name);
+                riqi.push(element.riqi);
+                str1.push(element.dress1);
+                str2.push(element.dress2);
+                str3.push(element.dress3);
+              };
+              aa = [];
+              var temp = [
+                { name: dataStr[0], type: "line", stack: "总量", data: str1 },
+                { name: dataStr[1], type: "line", stack: "总量", data: str2 },
+                { name: dataStr[2], type: "line", stack: "总量", data: str3 }
+              ];
+              aa.push(temp);
+              console.log(aa);
+              
+              var myChart = echarts.init(document.getElementById(echart));
+              var option = {
+                title: {
+                  text: ''
+                },
+                tooltip: {
+                  trigger: 'axis'
+                },
+                legend: {
+                  data: dataStr
+                },
+                grid: {
+                  left: '2%',
+                  right: '4%',
+                  bottom: '3%',
+                  containLabel: true
+                },
 
-            xAxis: {
-              type: 'category',
-              boundaryGap: false,
-              data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            },
-            yAxis: {
-              type: 'value'
-            },
-            series: [
-              {
-                name: '邮件营销',
-                type: 'line',
-                stack: '总量',
-                data: [120, 132, 101, 134, 90, 230, 210]
-              },
-              {
-                name: '联盟广告',
-                type: 'line',
-                stack: '总量',
-                data: [220, 132, 191, 234, 290, 330, 310]
-              },
-              {
-                name: '视频广告',
-                type: 'line',
-                stack: '总量',
-                data: [150, 232, 201, 154, 190, 330, 410]
-              },
-              {
-                name: '直接访问',
-                type: 'line',
-                stack: '总量',
-                data: [320, 332, 301, 334, 390, 330, 320]
-              },
-              {
-                name: '搜索引擎',
-                type: 'line',
-                stack: '总量',
-                data: [820, 932, 901, 934, 1290, 1330, 1320]
-              }
-            ]
-          };
-          myChart.clear();
-          myChart.on('click', function (param) {
+                xAxis: {
+                  type: 'category',
+                  boundaryGap: false,
+                  data: riqi
+                },
+                yAxis: {
+                  type: 'value'
+                },
+                series: aa[0]
+              };
+              myChart.clear();
+              myChart.on('click', function (param) {
 
-          })
-          myChart.setOption(option);
+              })
+              myChart.setOption(option);
+
+            }
+          });
+
           return false;
 
         });
