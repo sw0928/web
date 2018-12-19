@@ -38,7 +38,9 @@
   border: 1px solid;
   
  }
- 
+ #text{
+   display: none;
+ }
 </style>
 
 <body>
@@ -93,7 +95,7 @@
       </div>
     </div>
 
-    <div class="layui-body">
+    <div class="layui-body" id="oDiv">
       <div class='drag-box active'>
 
       </div>
@@ -539,6 +541,7 @@
     <div class="layui-footer" style="text-align: center;">
       你值得拥有
     </div>
+    <div id="text"></div>
   </div>
 
   <script src="./layui.all.js"></script>
