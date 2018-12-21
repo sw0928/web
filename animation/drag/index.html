@@ -9,11 +9,13 @@
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <link rel="stylesheet" href="./css/echarts.css">
   <script src="./js/jquery-1.9.1.min.js"></script>
-  <script type="text/javascript" src="js/drag.js"></script>
+  <script type="text/javascript" src="js/jquery.ZResize.js"></script>
   <script src="./js/echarts.common.min.js"></script>
   <script src="./js/template.js"></script>
   <script src="./js/htmlcavan.js"></script>
   <script src="./js/jspdf.min.js"></script>
+  <script src="./js/common.js"></script>
+  <!-- <script src="https://cdn.bootcss.com/jquery-resize/1.1/jquery.ba-resize.min.js"></script> -->
 </head>
 <style>
   .layui-body{
@@ -36,9 +38,19 @@
   }
  .active{
   border: 1px solid;
-  
+  overflow: hidden;
  }
- 
+ #text{
+   display: none;
+ }
+ .resize-item{
+   position: absolute;
+ }
+ .layui-layout-left li label input{
+    width: 100px;
+    padding: 5px 10px;
+    border: 1px solid #009688
+ }
 </style>
 
 <body>
@@ -47,8 +59,12 @@
       <div class="layui-logo">控制台</div>
       <!-- 头部区域（可配合layui已有的水平导航） -->
       <ul class="layui-nav layui-layout-left">
-        <!-- <li class="layui-nav-item"><a href="javascript:;" id="page">多单页</a></li> -->
-
+        <li class="layui-nav-item" style="color:#009688;margin-right: 20px;">
+          <label for="">宽度：<input  type="text" id="blur1"></label>
+        </li>
+        <li class="layui-nav-item" style="color:#009688;margin-right: 20px;">
+            <label for="">宽度：<input type="text" id="blur2"></label>
+        </li>
 
       </ul>
       <ul class="layui-nav layui-layout-right">
@@ -95,7 +111,7 @@
 
     <div class="layui-body">
       <div class='drag-box active'>
-
+         
       </div>
 
 
@@ -551,7 +567,30 @@
       //JavaScript代码区域
       layui.use(['element', 'form'], function () {
         var element = layui.element,
-          form = layui.form;
+          form = layui.form,
+          upload = layui.upload;
+         //普通图片上传
+      var uploadInst = upload.render({
+          elem: '#img'
+          , url: 'http://localhost:3000/upload/'
+          , before: function (obj) {
+            //预读本地文件示例，不支持ie8
+            obj.preview(function (index, file, result) {
+              //$('#demo1').attr('src', result); //图片链接（base64）
+              //console.log(index, file, result);
+              var drag = 'drag' + num;
+              var html = '<div class="' + drag + ' resize-item" style="width:300px;">'
+                  + '<img src="' + result + '" style="width:100%;height:100%;">'
+                  + '</div>';
+              $('.layui-body .active').append(html);
+              setTimeout(function(){ 
+                $('.layui-body .active').find('strong').remove();
+                new ZResize();
+              }, 50);
+            });
+          }       
+        
+        });  
         //标题
         form.on('submit(formDemo)', function (data) {
           $('#form1').hide();
@@ -562,10 +601,14 @@
           var color = data.field.color;
           var cuxi = data.field.cuxi;
           var drag = 'drag' + num;
-          var html = '<div class="' + drag + ' aa" style="font-size:' + daxiao + 'px;color:' + color + '; font-weight:' + cuxi + ';">' +
+          var html = '<div class="' + drag + ' resize-item" style="text-align: center;font-size:' + daxiao + 'px;color:' + color + '; font-weight:' + cuxi + ';">' +
             content +
             '</div>';
           $('.layui-body .active').append(html);
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();
+           }, 50);
           return false;
         });
         //背景标题
@@ -587,11 +630,15 @@
             drag = 'drag' + num;
           backImg = 'url(' + './img/' + backImg + ')';
           //console.log(backImg);
-          var html = '<div class="' + drag + ' aa" style="width:' + width + 'px;height:' + height + 'px;line-height:' + height1 + 'px;' +
+          var html = '<div class="' + drag + ' resize-item" style="width:' + width + 'px;height:' + height + 'px;line-height:' + height1 + 'px;' +
             'font-size:' + daxiao + 'px;border-radius:' + fillet + 'px;color:' + color + '; font-weight:' + cuxi + ';background-color:' + backColor + ';text-align: ' + align + ';background-image: ' + backImg + ' ">' +
             content +
             '</div>';
           $('.layui-body .active').append(html);
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();
+           }, 50);
           return false;
         });
         //文本框
@@ -607,10 +654,14 @@
           var back = data.field.back;
           console.log(data);
           var drag = 'drag' + num;
-          var html = '<div class="' + drag + ' aa" style="font-size:' + daxiao + 'px;color:' + color + ';width:' + width + 'px;height:' + height + 'px;background:' + back + ';">' +
+          var html = '<div class="' + drag + ' resize-item" style="font-size:' + daxiao + 'px;color:' + color + ';width:' + width + 'px;height:' + height + 'px;background:' + back + ';">' +
             content +
             '</div>';
           $('.layui-body .active').append(html);
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();
+           }, 50);
           return false;
         });
         //背景图
@@ -641,10 +692,14 @@
           var color = data.field.color;
           var fillet = data.field.fillet;
           var drag = 'drag' + num;
-          var html = '<div class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;border-radius:' + fillet + 'px;">'
+          var html = '<div class="' + drag + ' resize-item" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;border-radius:' + fillet + 'px;">'
 
           '</div>';
           $('.layui-body .active').append(html);
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();
+           }, 50);
           return false;
         });
         //饼图
@@ -659,7 +714,7 @@
           var dataStr = [], str = [];
           var drag = 'drag' + num;
           var echart = 'echart' + num;
-          var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
+          var html = '<div id="' + echart + '" class="' + drag + ' resize-item" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;">' +
 
             '</div>';
           $('.layui-body .active').append(html);
@@ -682,10 +737,7 @@
                 title: {
                   text: '饼图',
                 },
-                tooltip: {
-                  trigger: 'item',
-                  formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
+              
                 legend: {
                   orient: 'vertical',
                   right: '10%',
@@ -725,7 +777,10 @@
               myChart.setOption(option);
             }
           });
-
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();
+           }, 50);
           return false;
 
         });
@@ -741,7 +796,7 @@
           var dataStr = [], str = [];
           var drag = 'drag' + num;
           var echart = 'echart' + num;
-          var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
+          var html = '<div id="' + echart + '" class="' + drag + ' resize-item" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;">' +
 
             '</div>';
           $('.layui-body .active').append(html);
@@ -764,12 +819,7 @@
                   text: '柱状图',
                 },
                 color: ['#3398DB'],
-                tooltip: {
-                  trigger: 'axis',
-                  axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                  }
-                },
+              
                 grid: {
                   left: '3%',
                   right: '4%',
@@ -806,7 +856,10 @@
               myChart.setOption(option);
             }
           });
-
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();
+           }, 50);
           return false;
 
         });
@@ -822,7 +875,7 @@
 
           var drag = 'drag' + num;
           var echart = 'echart' + num;
-          var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
+          var html = '<div id="' + echart + '" class="' + drag + ' resize-item" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;">' +
 
             '</div>';
           $('.layui-body .active').append(html);
@@ -832,15 +885,7 @@
             title: {
               text: '折柱混合',
             },
-            tooltip: {
-              trigger: 'axis',
-              axisPointer: {
-                type: 'cross',
-                crossStyle: {
-                  color: '#999'
-                }
-              }
-            },
+         
             legend: {
               data: ['蒸发量', '降水量', '平均温度']
             },
@@ -899,6 +944,11 @@
 
           })
           myChart.setOption(option);
+
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();
+           }, 50);
           return false;
 
         });
@@ -914,9 +964,9 @@
           var dataStr = [], str1 = [], str2 = [], str3 = [], riqi = [], aa = [];
           var drag = 'drag' + num;
           var echart = 'echart' + num;
-          var html = '<div id="' + echart + '" class="' + drag + ' aa" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;padding: 20px 0 0 0;box-sizing: border-box;">' +
-
-            '</div>';
+          var html = '<div  class="' + drag + ' resize-item" style="background:' + color + ';width:' + width + 'px;height:' + height + 'px;">' +
+                        '<div id="' + echart + '" style="width:100%;height:100%;"></div>' +
+                     '</div>';
           $('.layui-body .active').append(html);
           $.ajax({
             url: urlStr,//json文件位置
@@ -941,15 +991,13 @@
                 { name: dataStr[2], type: "line", stack: "总量", data: str3 }
               ];
               aa.push(temp);
-              console.log(aa);
+              //console.log(aa);
               
               var myChart = echarts.init(document.getElementById(echart));
+              //自适应宽高             
               var option = {
                 title: {
                   text: ''
-                },
-                tooltip: {
-                  trigger: 'axis'
                 },
                 legend: {
                   data: dataStr
@@ -972,17 +1020,20 @@
                 series: aa[0]
               };
               myChart.clear();
-              myChart.on('click', function (param) {
-
-              })
               myChart.setOption(option);
-
+             //浏览器大小改变时重置大小
+          
             }
           });
-
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();                        
+           }, 50);
+           
           return false;
 
-        });
+        });             
+        
         //表格
         form.on('submit(formDemo3)', function (data) {
           $('#form4').hide();
@@ -1076,7 +1127,7 @@
                 + '</tbody>'
                 + '</table>'
                 + '</div>'
-              var html = '<div class="' + drag + ' aa" style="padding: 20px 0 0 0;">'
+              var html = '<div class="' + drag + ' resize-item" style="padding: 20px 0 0 0;">'
                 + thead
                 + tbody
                 + '</div>';
@@ -1085,6 +1136,10 @@
 
             }
           })
+          setTimeout(function(){ 
+            $('.layui-body .active').find('strong').remove();
+            new ZResize();
+           }, 50);
           return false;
         });
         //图片
@@ -1097,30 +1152,25 @@
           var img = data.field.img;
           //console.log(data);
           var drag = 'drag' + num;
-          var html = '<div class="' + drag + ' aa" >'
+          var html = '<div class="' + drag + ' resize-item" >'
             + '<img src="./img/' + img + '" style="width:' + width + 'px;">'
             + '</div>';
           $('.layui-body .active').append(html);
+          setTimeout(function(){ 
+            new ZResize();
+           }, 50);
           return false;
         });
 
       });
-      add = function (ele) {
-        $(ele).each(function (index) {
-          $(this).myDrag({
-            dragStart: function (x, y) {
-              $('.lg span').html('').eq(0).html('开始拖动了! — 坐标 x：' + x + ' y：' + y);
-            },
-            dragEnd: function (x, y) {
-              $('.lg span').html('').eq(1).html('停止拖动了! — 坐标 x：' + x + ' y：' + y);
-            },
-            dragMove: function (x, y) {
-              $('.lg span').html('').eq(2).html('拖动中! — 坐标 x：' + x + ' y：' + y);
-            }
-          });
-        });
-      }
+      
       $('#xinjian').click(function () {
+        var width =$('.active').css('width');
+        width = width.split('p')[0];   
+        var height = $('.active').css('height');
+        height = height.split('p')[0];   
+        $('#form2 input[name="width"]').val(width);
+        $('#form2 input[name="height"]').val(height);
         $('#form2').show();
         $('.shade').show();
       });
@@ -1156,10 +1206,6 @@
         $('#form4').show();
         $('.shade').show();
       });
-      $('#img').click(function () {
-        $('#form7').show();
-        $('.shade').show();
-      });
       $('#zhezhu').click(function () {
         $('#form11').show();
         $('.shade').show();
@@ -1169,14 +1215,33 @@
         $('.shade').hide(1000);
         return false
       });
+      // 监听窗口大小调整事件，每次窗口改变大小就触发该事件
+      $(window).resize(function(){
+         // console.log('ww')
+      });
 
+      $("#blur1").blur(function(){
+         var val = $(this).val();
+         $('.layui-body .drag-box').css({                   
+                   width: val + 'px',
+                                    
+                });
+          
+        });
+        $("#blur2").blur(function(){
+         var val = $(this).val();
+         $('.layui-body .drag-box').css({                   
+                   height: val +'px',
+                                    
+                });
+          
+        });
       $('#page').click(function () {        
         var width =$('.active').css('width');
           var height = $('.active').css('height');
           var color = $('.active').css('color');
           var theme = $('.active').css('background-color');
           var back = $('.active').css('background-image');  
-          //console.log(width,height,color,theme); 
           back = back.split('/');
           back = back.pop().toString();
           back = back.split('"')[0];      
@@ -1187,15 +1252,31 @@
         $('.layui-body').append(html);
 
       });
-      $(".layui-body").on("click", ".active .aa", function () {
-
-        add('.aa')
-      });
+      // $(".layui-body").on("click", ".active .resize-item", function () {
+      //   $(this).resize(function(){
+      //          var width = $(this).css('width');
+      //          var height = $(this).css('height');
+      //          console.log(width);
+      //       }); 
+      //     console.log(width);
+          // var width = $(this).css('width');
+          // var height = $(this).css('height');
+          // $(this).find('canvas').parent().css({
+          //   width: width,
+          //   height: height
+          // })
+          // $(this).find('canvas').css({
+          //   width: width,
+          //   height: height
+          // })
+             
+        
+      //});
       $(".layui-body").on("click", ".drag-box", function () {
         $(this).addClass('active').siblings().removeClass('active')
       });
       //双击事件取消当前视图
-      $(".layui-body").on("dblclick", ".active .aa", function (e) {
+      $(".layui-body").on("dblclick", ".active .resize-item", function (e) {
         e.stopPropagation();
         var _this = this;
         layer.msg('你确定你删除么？', {
@@ -1241,18 +1322,18 @@
 
                 //一页pdf显示html页面生成的canvas高度;a0 :2383.94, 3370.39'a1': [1683.78, 2383.94],'a2': [1190.55, 1683.78],'a4': [595.28, 841.89],
                 //'a6': [297.64, 419.53],'a5': [419.53, 595.28],
-                var pageHeight = contentWidth / 419.53 * 595.28;
+                var pageHeight = contentWidth / 841.89 * 1190.55;
                 //未生成pdf的html页面高度
                 var leftHeight = contentHeight;
                 //页面偏移
                 var position = 0;
                 //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                var imgWidth = 419.53;
-                var imgHeight = 419.53 / contentWidth * contentHeight;
+                var imgWidth = 1190.55;
+                var imgHeight = 1190.55 / contentWidth * contentHeight;
 
                 var pageData = canvas.toDataURL('image/jpeg', 1.0);
 
-                var pdf = new jsPDF('', 'pt', 'a0');
+                var pdf = new jsPDF('', 'pt', 'a1');
 
                 //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
                 //当内容未超过pdf一页显示的范围，无需分页
@@ -1263,7 +1344,7 @@
                   while (leftHeight > 0) {
                     pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
                     leftHeight -= pageHeight;
-                    position -= 595.28;
+                    position -= 841.89;
                     //避免添加空白页
                     if (leftHeight > 0) {
                       pdf.addPage();
